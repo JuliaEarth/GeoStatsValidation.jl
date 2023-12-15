@@ -6,7 +6,8 @@ using Transducers
 using DensityRatioEstimation
 
 using GeoStatsModels: GeoStatsModel
-using StatsLearnModels: Learn, StatsLearnModel, input, output
+using StatsLearnModels: StatsLearnModel
+using StatsLearnModels: Learn, input, output
 using GeoStatsTransforms: Interpolate, InterpolateNeighbors
 
 using ColumnSelectors: selector
