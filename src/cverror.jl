@@ -20,7 +20,7 @@ struct InterpSetup{I,M}
 end
 
 """
-    cverror(Lean, model, incols => outcols, geotable, method)
+    cverror(Learn, model, incols => outcols, geotable, method)
     cverror(Interpolate, model, geotable, method)
     cverror(InterpolateNeighbors, model, geotable, method)
 
