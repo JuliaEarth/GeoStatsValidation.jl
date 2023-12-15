@@ -25,7 +25,7 @@ end
 
 KFoldValidation(k::Int; shuffle=true, loss=Dict()) = KFoldValidation(k, shuffle, loss)
 
-function cverror(setup, geotable, method::KFoldValidation)
+function cverror(setup::ErrorSetup, geotable::AbstractGeoTable, method::KFoldValidation)
   # uniform weights
   weighting = UniformWeighting()
 

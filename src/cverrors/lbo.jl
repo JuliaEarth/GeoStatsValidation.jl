@@ -29,7 +29,7 @@ LeaveBallOut(ball; loss=Dict()) = LeaveBallOut{typeof(ball)}(ball, loss)
 
 LeaveBallOut(radius::Number; loss=Dict()) = LeaveBallOut(MetricBall(radius), loss=loss)
 
-function cverror(setup, geotable, method::LeaveBallOut)
+function cverror(setup::ErrorSetup, geotable::AbstractGeoTable, method::LeaveBallOut)
   # uniform weights
   weighting = UniformWeighting()
 

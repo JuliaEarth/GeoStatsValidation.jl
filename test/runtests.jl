@@ -19,7 +19,7 @@ using Test
 
     # dummy classifier → 0.5 misclassification rate
     for method in [LeaveOneOut(), LeaveBallOut(0.1), KFoldValidation(10), BlockValidation(0.1), DensityRatioValidation(10)]
-      e = cverror(Learn, model, :x => :y, gtb, method)
+      e = cverror((model, :x => :y), gtb, method)
       @test isapprox(e[:y], 0.5, atol=0.06)
     end
   end
@@ -34,8 +34,8 @@ using Test
     # low variance + dummy (mean) estimator → low error
     # high variance + dummy (mean) estimator → high error
     for method in [LeaveOneOut(), LeaveBallOut(0.1), KFoldValidation(10), BlockValidation(0.1)]
-      e₁ = cverror(Interpolate, model, sgtb₁, method)
-      e₂ = cverror(Interpolate, model, sgtb₂, method)
+      e₁ = cverror(model, sgtb₁, method)
+      e₂ = cverror(model, sgtb₂, method)
       @test e₁[:z] < 1
       @test e₂[:z] > 1
     end

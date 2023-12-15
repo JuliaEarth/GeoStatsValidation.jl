@@ -33,7 +33,7 @@ end
 WeightedValidation(weighting::W, folding::F; lambda::T=one(T), loss=Dict()) where {W,F,T} =
   WeightedValidation{W,F,T}(weighting, folding, lambda, loss)
 
-function cverror(setup, geotable, method::WeightedValidation)
+function cverror(setup::ErrorSetup, geotable::AbstractGeoTable, method::WeightedValidation)
   ovars = _outputs(setup, geotable)
   loss = method.loss
   for var in ovars
@@ -86,11 +86,11 @@ _outputs(s::LearnSetup, gtb) = s.output
 function _prediction(s::InterpSetup{I}, geotable, f) where {I}
   sdat = view(geotable, f[1])
   sdom = view(domain(geotable), f[2])
-  sdat |> I(sdom, s.model)
+  sdat |> I(sdom, s.model; s.kwargs...)
 end
 
 function _prediction(s::LearnSetup, geotable, f)
   source = view(geotable, f[1])
   target = view(geotable, f[2])
-  target |> Learn(source, s.model, s.input => s.output)
+  target |> Learn(source, s.model)
 end
