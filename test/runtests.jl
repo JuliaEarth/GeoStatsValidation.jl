@@ -1,6 +1,5 @@
 using GeoStatsValidation
 using StatsLearnModels
-using GeoStatsTransforms
 using GeoStatsModels
 using GeoTables
 using Meshes
