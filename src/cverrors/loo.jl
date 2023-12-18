@@ -19,7 +19,7 @@ end
 
 LeaveOneOut(; loss=Dict()) = LeaveOneOut(loss)
 
-function cverror(setup, geotable, method::LeaveOneOut)
+function cverror(setup::ErrorSetup, geotable::AbstractGeoTable, method::LeaveOneOut)
   # uniform weights
   weighting = UniformWeighting()
 

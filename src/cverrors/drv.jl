@@ -49,7 +49,7 @@ function DensityRatioValidation(
   DensityRatioValidation{T,E,O}(k, shuffle, lambda, estimator, optlib, loss)
 end
 
-function cverror(setup::LearnSetup, geotable, method::DensityRatioValidation)
+function cverror(setup::LearnSetup, geotable::AbstractGeoTable, method::DensityRatioValidation)
   vars = setup.input
 
   # density-ratio weights

@@ -26,7 +26,7 @@ end
 
 BlockValidation(sides; loss=Dict()) = BlockValidation{typeof(sides)}(sides, loss)
 
-function cverror(setup, geotable, method::BlockValidation)
+function cverror(setup::ErrorSetup, geotable::AbstractGeoTable, method::BlockValidation)
   # uniform weights
   weighting = UniformWeighting()
 
