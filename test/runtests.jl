@@ -17,7 +17,8 @@ using Test
     model = DecisionTreeClassifier()
 
     # dummy classifier → 0.5 misclassification rate
-    for method in [LeaveOneOut(), LeaveBallOut(0.1), KFoldValidation(10), BlockValidation(0.1), DensityRatioValidation(10)]
+    for method in
+        [LeaveOneOut(), LeaveBallOut(0.1), KFoldValidation(10), BlockValidation(0.1), DensityRatioValidation(10)]
       e = cverror((model, :x => :y), gtb, method)
       @test isapprox(e[:y], 0.5, atol=0.06)
     end
