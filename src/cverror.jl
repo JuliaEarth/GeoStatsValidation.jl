@@ -26,8 +26,9 @@ end
     cverror(model::GeoStatsModel, geotable, method; kwargs...)
 
 Estimate error of `model` in a given `geotable` with
-error estimation `method` using `Interpolate` or `InterpolateNeighbors`
-depending on the passed `kwargs`.
+error estimation `method` using `Interpolate` or
+`InterpolateNeighbors` depending on the passed
+`kwargs`.
 
     cverror(model::StatsLearnModel, geotable, method)
     cverror((model, invars => outvars), geotable, method)
