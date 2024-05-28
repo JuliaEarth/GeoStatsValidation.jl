@@ -30,7 +30,7 @@ struct WeightedValidation{W<:WeightingMethod,F<:FoldingMethod,T<:Real} <: ErrorM
   end
 end
 
-WeightedValidation(weighting::W, folding::F; lambda::T=one(T), loss=Dict()) where {W,F,T} =
+WeightedValidation(weighting::W, folding::F; lambda::T=1.0, loss=Dict()) where {W,F,T} =
   WeightedValidation{W,F,T}(weighting, folding, lambda, loss)
 
 function cverror(setup::ErrorSetup, geotable::AbstractGeoTable, method::WeightedValidation)
