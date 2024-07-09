@@ -1,7 +1,7 @@
 name = "GeoStatsValidation"
 uuid = "36f43c0d-3673-45fc-9557-6860e708e7aa"
 authors = ["Elias Carvalho <eliascarvdev@gmail.com> and contributors"]
-version = "0.3.5"
+version = "0.3.6"
 
 [deps]
 ColumnSelectors = "9cc86067-7e36-4c61-b350-1ac9833d277f"
@@ -18,7 +18,7 @@ Transducers = "28d57a85-8fef-5791-bfe6-a80928e7c999"
 
 [compat]
 ColumnSelectors = "0.1"
-DataScienceTraits = "0.3"
+DataScienceTraits = "0.4"
 DensityRatioEstimation = "1.2"
 GeoStatsBase = "0.45"
 GeoStatsModels = "0.4"
