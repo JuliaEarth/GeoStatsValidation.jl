@@ -12,8 +12,7 @@ using Test
   @testset "Learning" begin
     x = rand(1:2, 1000)
     y = rand(1:2, 1000)
-    X = rand(2, 1000)
-    gtb = georef((; x, y), X)
+    gtb = georef((; x, y), rand(Point, 1000))
     model = DecisionTreeClassifier()
 
     # dummy classifier → 0.5 misclassification rate
