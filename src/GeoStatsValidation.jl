@@ -6,7 +6,6 @@ module GeoStatsValidation
 
 using Meshes
 using GeoTables
-using Transducers
 using DataScienceTraits
 using DensityRatioEstimation
 

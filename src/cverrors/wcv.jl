@@ -71,8 +71,8 @@ function cverror(setup::ErrorSetup, geotable::AbstractGeoTable, method::Weighted
     Dict(losses)
   end
 
-  # compute error for each fold in parallel
-  εs = foldxt(vcat, Map(ε), fs)
+  # compute error for each fold
+  εs = mapreduce(ε, vcat, fs)
 
   # combine error from different folds
   Dict(var => mean(get.(εs, var, 0)) for var in ovars)
