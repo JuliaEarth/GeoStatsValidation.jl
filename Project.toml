@@ -1,7 +1,7 @@
 name = "GeoStatsValidation"
 uuid = "36f43c0d-3673-45fc-9557-6860e708e7aa"
 authors = ["Elias Carvalho <eliascarvdev@gmail.com> and contributors"]
-version = "0.3.15"
+version = "0.3.16"
 
 [deps]
 ColumnSelectors = "9cc86067-7e36-4c61-b350-1ac9833d277f"
@@ -16,7 +16,7 @@ Meshes = "eacbb407-ea5a-433e-ab97-5258b1ca43fa"
 StatsLearnModels = "c146b59d-1589-421c-8e09-a22e554fd05c"
 
 [compat]
-ColumnSelectors = "0.1"
+ColumnSelectors = "1.0"
 DataScienceTraits = "0.4"
 DensityRatioEstimation = "1.2"
 GeoStatsBase = "0.46"
@@ -24,6 +24,6 @@ GeoStatsModels = "0.6"
 GeoStatsTransforms = "0.8"
 GeoTables = "1.21"
 LossFunctions = "0.11"
-Meshes = "0.47 - 0.51"
+Meshes = "0.47 - 0.52"
 StatsLearnModels = "0.3"
 julia = "1.9"
