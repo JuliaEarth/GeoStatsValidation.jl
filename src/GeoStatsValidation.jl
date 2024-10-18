@@ -18,7 +18,6 @@ using ColumnSelectors: selector
 using GeoStatsBase: weight, folds, mean
 using GeoStatsBase: WeightingMethod, DensityRatioWeighting, UniformWeighting
 using GeoStatsBase: FoldingMethod, BallFolding, BlockFolding, OneFolding, UniformFolding
-using DataScienceTraits: Continuous, Categorical
 using LossFunctions: L2DistLoss, MisclassLoss
 using LossFunctions.Traits: SupervisedLoss
 
