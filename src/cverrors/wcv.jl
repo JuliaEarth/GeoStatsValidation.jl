@@ -86,7 +86,7 @@ _outputs(s::LearnSetup, gtb) = s.output
 function _prediction(s::InterpSetup{I}, geotable, f) where {I}
   sdat = view(geotable, f[1])
   sdom = view(domain(geotable), f[2])
-  sdat |> I(sdom, s.model; s.kwargs...)
+  sdat |> I(sdom; model=s.model, s.kwargs...)
 end
 
 function _prediction(s::LearnSetup, geotable, f)
