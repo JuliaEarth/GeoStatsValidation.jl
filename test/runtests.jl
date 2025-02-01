@@ -1,6 +1,7 @@
 using GeoStatsValidation
 using StatsLearnModels
 using GeoStatsModels
+using LossFunctions
 using GeoTables
 using Meshes
 using Random
@@ -16,8 +17,28 @@ using Test
     model = DecisionTreeClassifier()
 
     # dummy classifier → 0.5 misclassification rate
-    for method in
-        [LeaveOneOut(), LeaveBallOut(0.1), KFoldValidation(10), BlockValidation(0.1), DensityRatioValidation(10)]
+    for method in [
+      # methods
+      LeaveOneOut(),
+      LeaveBallOut(0.1),
+      KFoldValidation(10),
+      BlockValidation(0.1),
+      DensityRatioValidation(10)
+    ]
+      e = cverror((model, :x => :y), gtb, method)
+      @test isapprox(e[:y], 0.5, atol=0.06)
+    end
+
+    # test with custom loss
+    loss = Dict("y" => MisclassLoss())
+    for method in [
+      # methods
+      LeaveOneOut(loss=loss),
+      LeaveBallOut(0.1, loss=loss),
+      KFoldValidation(10, loss=loss),
+      BlockValidation(0.1, loss=loss),
+      DensityRatioValidation(10, loss=loss)
+    ]
       e = cverror((model, :x => :y), gtb, method)
       @test isapprox(e[:y], 0.5, atol=0.06)
     end

@@ -6,9 +6,8 @@
     LeaveBallOut(ball; loss=Dict())
 
 Leave-`ball`-out (a.k.a. spatial leave-one-out) validation.
-Optionally, specify `loss` function from the
-[LossFunctions.jl](https://github.com/JuliaML/LossFunctions.jl)
-package for some of the variables.
+Optionally, specify a dictionary with `loss` functions from
+`LossFunctions.jl` for some of the variables.
 
     LeaveBallOut(radius; loss=Dict())
 
@@ -20,14 +19,14 @@ By default, use Euclidean ball of given `radius` in space.
   for variable selection in the presence of spatial autocorrelation]
   (https://onlinelibrary.wiley.com/doi/full/10.1111/geb.12161)
 """
-struct LeaveBallOut{B<:MetricBall} <: ErrorMethod
+struct LeaveBallOut{B,L} <: ErrorMethod
   ball::B
-  loss::Dict{Symbol,SupervisedLoss}
+  loss::L
 end
 
-LeaveBallOut(ball; loss=Dict()) = LeaveBallOut{typeof(ball)}(ball, loss)
+LeaveBallOut(ball; loss=Dict()) = LeaveBallOut(ball, assymbol(loss))
 
-LeaveBallOut(radius::Number; loss=Dict()) = LeaveBallOut(MetricBall(radius), loss=loss)
+LeaveBallOut(radius::Number; loss=Dict()) = LeaveBallOut(MetricBall(radius); loss=loss)
 
 function cverror(setup::ErrorSetup, geotable::AbstractGeoTable, method::LeaveBallOut)
   # uniform weights

@@ -5,16 +5,16 @@
 """
     ErrorMethod
 
-A method for estimating cross-validatory error.
+A method for estimating cross-validation error.
 """
 abstract type ErrorMethod end
 
 abstract type ErrorSetup end
 
-struct LearnSetup{M} <: ErrorSetup
+struct LearnSetup{M,F,T} <: ErrorSetup
   model::M
-  input::Vector{Symbol}
-  output::Vector{Symbol}
+  feats::F
+  targs::T
 end
 
 struct InterpSetup{I,M,K} <: ErrorSetup
@@ -25,16 +25,15 @@ end
 """
     cverror(model::GeoStatsModel, geotable, method; kwargs...)
 
-Estimate error of `model` in a given `geotable` with
-error estimation `method` using `Interpolate` or
-`InterpolateNeighbors` depending on the passed
-`kwargs`.
+Estimate cross-validation error of geostatistical `model`
+on given `geotable` with error estimation `method` using
+`Interpolate` or `InterpolateNeighbors` depending on `kwargs`.
 
     cverror(model::StatsLearnModel, geotable, method)
-    cverror((model, invars => outvars), geotable, method)
+    cverror((model, feats => targs), geotable, method)
 
-Estimate error of `model` in a given `geotable` with
-error estimation `method` using the `Learn` transform.
+Estimate cross-validation error of statistical learning `model`
+on given `geotable` with error estimation `method`.
 """
 function cverror end
 
@@ -43,9 +42,9 @@ cverror((model, cols)::Tuple{Any,Pair}, geotable::AbstractGeoTable, method::Erro
 
 function cverror(model::StatsLearnModel, geotable::AbstractGeoTable, method::ErrorMethod)
   names = setdiff(propertynames(geotable), [:geometry])
-  invars = input(model)(names)
-  outvars = output(model)(names)
-  setup = LearnSetup(model, invars, outvars)
+  feats = model.feats(names)
+  targs = model.targs(names)
+  setup = LearnSetup(model, feats, targs)
   cverror(setup, geotable, method)
 end
 
@@ -65,5 +64,5 @@ include("cverrors/loo.jl")
 include("cverrors/lbo.jl")
 include("cverrors/kfv.jl")
 include("cverrors/bcv.jl")
-include("cverrors/wcv.jl")
 include("cverrors/drv.jl")
+include("cverrors/wcv.jl")

@@ -6,8 +6,8 @@
     KFoldValidation(k; shuffle=true, loss=Dict())
 
 `k`-fold cross-validation. Optionally, `shuffle` the
-data, and specify `loss` function  from `LossFunctions.jl`
-for some of the variables.
+data, and specify a dictionary with `loss` functions
+from `LossFunctions.jl` for some of the variables.
 
 ## References
 
@@ -17,13 +17,13 @@ for some of the variables.
   cross-validation and the repeated learning-testing methods]
   (https://www.jstor.org/stable/2336116)
 """
-struct KFoldValidation <: ErrorMethod
+struct KFoldValidation{L} <: ErrorMethod
   k::Int
   shuffle::Bool
-  loss::Dict{Symbol,SupervisedLoss}
+  loss::L
 end
 
-KFoldValidation(k::Int; shuffle=true, loss=Dict()) = KFoldValidation(k, shuffle, loss)
+KFoldValidation(k::Int; shuffle=true, loss=Dict()) = KFoldValidation(k, shuffle, assymbol(loss))
 
 function cverror(setup::ErrorSetup, geotable::AbstractGeoTable, method::KFoldValidation)
   # uniform weights

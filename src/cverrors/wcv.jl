@@ -8,8 +8,8 @@
 An error estimation method which samples are weighted with
 `weighting` method and split into folds with `folding` method.
 Weights are raised to `lambda` power in `[0,1]`. Optionally,
-specify `loss` function from `LossFunctions.jl` for some of
-the variables.
+specify a dictionary with `loss` functions from `LossFunctions.jl`
+for some of the variables.
 
 ## References
 
@@ -18,20 +18,17 @@ the variables.
 * Sugiyama et al. 2007. [Covariate shift adaptation by importance weighted
   cross validation](http://www.jmlr.org/papers/volume8/sugiyama07a/sugiyama07a.pdf)
 """
-struct WeightedValidation{W<:WeightingMethod,F<:FoldingMethod,T<:Real} <: ErrorMethod
+struct WeightedValidation{W<:WeightingMethod,F<:FoldingMethod,T,L} <: ErrorMethod
   weighting::W
   folding::F
   lambda::T
-  loss::Dict{Symbol,SupervisedLoss}
-
-  function WeightedValidation{W,F,T}(weighting, folding, lambda, loss) where {W,F,T}
-    @assert 0 ≤ lambda ≤ 1 "lambda must lie in [0,1]"
-    new(weighting, folding, lambda, loss)
-  end
+  loss::L
 end
 
-WeightedValidation(weighting::W, folding::F; lambda::T=1.0, loss=Dict()) where {W,F,T} =
-  WeightedValidation{W,F,T}(weighting, folding, lambda, loss)
+function WeightedValidation(weighting, folding; lambda=1.0, loss=Dict())
+  @assert 0 ≤ lambda ≤ 1 "lambda must lie in [0,1]"
+  WeightedValidation(weighting, folding, lambda, loss)
+end
 
 function cverror(setup::ErrorSetup, geotable::AbstractGeoTable, method::WeightedValidation)
   ovars = _outputs(setup, geotable)
@@ -80,7 +77,7 @@ end
 
 # output variables
 _outputs(::InterpSetup, gtb) = setdiff(propertynames(gtb), [:geometry])
-_outputs(s::LearnSetup, gtb) = s.output
+_outputs(s::LearnSetup, gtb) = s.targs
 
 # prediction for a given fold
 function _prediction(s::InterpSetup{I}, geotable, f) where {I}

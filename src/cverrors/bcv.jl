@@ -6,9 +6,8 @@
     BlockValidation(sides; loss=Dict())
 
 Cross-validation with blocks of given `sides`. Optionally,
-specify `loss` function from `LossFunctions.jl` for some
-of the variables. If only one side is provided, then blocks
-become cubes.
+specify a dictionary with `loss` functions from `LossFunctions.jl`
+for some of the variables.
 
 ## References
 
@@ -19,12 +18,14 @@ become cubes.
   of spatial models via spatial k-fold cross-validation]
   (https://www.tandfonline.com/doi/full/10.1080/13658816.2017.1346255)
 """
-struct BlockValidation{S} <: ErrorMethod
+struct BlockValidation{S,L} <: ErrorMethod
   sides::S
-  loss::Dict{Symbol,SupervisedLoss}
+  loss::L
 end
 
-BlockValidation(sides; loss=Dict()) = BlockValidation{typeof(sides)}(sides, loss)
+BlockValidation(sides::Tuple; loss=Dict()) = BlockValidation(sides, assymbol(loss))
+
+BlockValidation(sides::Number...; kwargs...) = BlockValidation(sides; kwargs...)
 
 function cverror(setup::ErrorSetup, geotable::AbstractGeoTable, method::BlockValidation)
   # uniform weights
