@@ -3,12 +3,12 @@
 # ------------------------------------------------------------------
 
 """
-    DensityRatioValidation(k; [parameters])
+    DensityRatioValidation(k; [options])
 
 Density ratio validation where weights are first obtained with density
 ratio estimation, and then used in `k`-fold weighted cross-validation.
 
-## Parameters
+## Options
 
 * `shuffle`   - Shuffle the data before folding (default to `true`)
 * `estimator` - Density ratio estimator (default to `LSIF()`)
