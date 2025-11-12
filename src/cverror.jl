@@ -56,9 +56,9 @@ end
 # IMPLEMENTATIONS
 # ----------------
 
-include("cverrors/loo.jl")
-include("cverrors/lbo.jl")
-include("cverrors/kfv.jl")
-include("cverrors/bcv.jl")
-include("cverrors/drv.jl")
-include("cverrors/wcv.jl")
+include("cverror/loo.jl")
+include("cverror/lbo.jl")
+include("cverror/kfv.jl")
+include("cverror/bcv.jl")
+include("cverror/drv.jl")
+include("cverror/wcv.jl")
