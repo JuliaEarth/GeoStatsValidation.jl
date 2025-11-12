@@ -25,7 +25,7 @@ using Test
       BlockValidation(0.1),
       DensityRatioValidation(10)
     ]
-      e = cverror((model, :x => :y), gtb, method)
+      e = cverror(model, label(gtb, "y"), method)
       @test isapprox(e[:y], 0.5, atol=0.06)
     end
 
@@ -39,7 +39,7 @@ using Test
       BlockValidation(0.1, loss=loss),
       DensityRatioValidation(10, loss=loss)
     ]
-      e = cverror((model, :x => :y), gtb, method)
+      e = cverror(model, label(gtb, "y"), method)
       @test isapprox(e[:y], 0.5, atol=0.06)
     end
   end

@@ -48,7 +48,7 @@ function DensityRatioValidation(
 end
 
 function cverror(setup::LearnSetup, geotable::AbstractGeoTable, method::DensityRatioValidation)
-  vars = setup.feats
+  vars = setup.preds
 
   # density-ratio weights
   weighting = DensityRatioWeighting(geotable, vars, estimator=method.dre, optlib=method.optlib)

@@ -4,22 +4,17 @@
 
 module GeoStatsValidation
 
-using Meshes
-using GeoTables
+using LossFunctions
 using DataScienceTraits
 using DensityRatioEstimation
+using StatsLearnModels
+
+using Meshes
+using GeoTables
+using GeoStatsBase
+using GeoStatsTransforms
 
 using GeoStatsModels: GeoStatsModel
-using StatsLearnModels: StatsLearnModel
-using StatsLearnModels: Learn
-using GeoStatsTransforms: Interpolate
-using GeoStatsTransforms: InterpolateNeighbors
-
-using ColumnSelectors: selector
-using GeoStatsBase: weight, folds, mean
-using GeoStatsBase: WeightingMethod, DensityRatioWeighting, UniformWeighting
-using GeoStatsBase: FoldingMethod, BallFolding, BlockFolding, OneFolding, UniformFolding
-using LossFunctions: L2DistLoss, MisclassLoss
 
 include("utils.jl")
 include("cverror.jl")

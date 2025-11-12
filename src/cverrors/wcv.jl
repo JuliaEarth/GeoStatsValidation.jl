@@ -89,5 +89,5 @@ end
 function _prediction(s::LearnSetup, geotable, f)
   source = view(geotable, f[1])
   target = view(geotable, f[2])
-  target |> Learn(source, s.model)
+  target |> Learn(label(source, s.targs), model=s.model)
 end

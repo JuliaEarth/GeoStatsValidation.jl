@@ -11,9 +11,9 @@ abstract type ErrorMethod end
 
 abstract type ErrorSetup end
 
-struct LearnSetup{M,F,T} <: ErrorSetup
+struct LearnSetup{M,P,T} <: ErrorSetup
   model::M
-  feats::F
+  preds::P
   targs::T
 end
 
@@ -29,22 +29,18 @@ Estimate cross-validation error of geostatistical `model`
 on given `geotable` with error estimation `method` using
 `Interpolate` or `InterpolateNeighbors` depending on `kwargs`.
 
-    cverror(model::StatsLearnModel, geotable, method)
-    cverror((model, feats => targs), geotable, method)
+    cverror(model, geotable, method)
 
 Estimate cross-validation error of statistical learning `model`
 on given `geotable` with error estimation `method`.
 """
 function cverror end
 
-cverror((model, cols)::Tuple{Any,Pair}, geotable::AbstractGeoTable, method::ErrorMethod) =
-  cverror(StatsLearnModel(model, first(cols), last(cols)), geotable, method)
-
-function cverror(model::StatsLearnModel, geotable::AbstractGeoTable, method::ErrorMethod)
-  names = setdiff(propertynames(geotable), [:geometry])
-  feats = model.feats(names)
-  targs = model.targs(names)
-  setup = LearnSetup(model, feats, targs)
+function cverror(model, geotable::AbstractGeoTable, method::ErrorMethod)
+  table = values(geotable)
+  preds = predictors(table)
+  targs = targets(table)
+  setup = LearnSetup(model, preds, targs)
   cverror(setup, geotable, method)
 end
 
