@@ -28,14 +28,9 @@ LeaveBallOut(ball; loss=Dict()) = LeaveBallOut(ball, assymbol(loss))
 
 LeaveBallOut(radius::Number; loss=Dict()) = LeaveBallOut(MetricBall(radius); loss=loss)
 
-function cverror(setup::ErrorSetup, geotable::AbstractGeoTable, method::LeaveBallOut)
-  # uniform weights
-  weighting = UniformWeighting()
-
-  # ball folds
-  folding = BallFolding(method.ball)
-
-  wcv = WeightedValidation(weighting, folding, lambda=1, loss=method.loss)
-
-  cverror(setup, geotable, wcv)
+function cverror(model, geotable::AbstractGeoTable, method::LeaveBallOut)
+  wmethod = UniformWeighting()
+  fmethod = BallFolding(method.ball)
+  emethod = WeightedValidation(wmethod, fmethod, lambda=1, loss=method.loss)
+  cverror(model, geotable, emethod)
 end

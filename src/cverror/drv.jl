@@ -47,16 +47,11 @@ function DensityRatioValidation(
   DensityRatioValidation(k, shuffle, lambda, estimator, optlib, assymbol(loss))
 end
 
-function cverror(setup::LearnSetup, geotable::AbstractGeoTable, method::DensityRatioValidation)
-  vars = setup.preds
-
-  # density-ratio weights
-  weighting = DensityRatioWeighting(geotable, vars, estimator=method.dre, optlib=method.optlib)
-
-  # random folds
-  folding = UniformFolding(method.k, method.shuffle)
-
-  wcv = WeightedValidation(weighting, folding, lambda=method.lambda, loss=method.loss)
-
-  cverror(setup, geotable, wcv)
+# density-ratio validation is only defined for learning models
+function cverror(model, geotable::AbstractGeoTable, method::DensityRatioValidation)
+  winputs = predictors(values(geotable))
+  wmethod = DensityRatioWeighting(geotable, winputs, estimator=method.dre, optlib=method.optlib)
+  fmethod = UniformFolding(method.k, method.shuffle)
+  emethod = WeightedValidation(wmethod, fmethod, lambda=method.lambda, loss=method.loss)
+  cverror(model, geotable, emethod)
 end

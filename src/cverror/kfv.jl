@@ -25,14 +25,9 @@ end
 
 KFoldValidation(k::Int; shuffle=true, loss=Dict()) = KFoldValidation(k, shuffle, assymbol(loss))
 
-function cverror(setup::ErrorSetup, geotable::AbstractGeoTable, method::KFoldValidation)
-  # uniform weights
-  weighting = UniformWeighting()
-
-  # random folds
-  folding = UniformFolding(method.k, method.shuffle)
-
-  wcv = WeightedValidation(weighting, folding, lambda=1, loss=method.loss)
-
-  cverror(setup, geotable, wcv)
+function cverror(model, geotable::AbstractGeoTable, method::KFoldValidation)
+  wmethod = UniformWeighting()
+  fmethod = UniformFolding(method.k, method.shuffle)
+  emethod = WeightedValidation(wmethod, fmethod, lambda=1, loss=method.loss)
+  cverror(model, geotable, emethod)
 end

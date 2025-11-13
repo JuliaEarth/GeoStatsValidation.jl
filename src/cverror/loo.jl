@@ -19,14 +19,9 @@ end
 
 LeaveOneOut(; loss=Dict()) = LeaveOneOut(assymbol(loss))
 
-function cverror(setup::ErrorSetup, geotable::AbstractGeoTable, method::LeaveOneOut)
-  # uniform weights
-  weighting = UniformWeighting()
-
-  # point folds
-  folding = OneFolding()
-
-  wcv = WeightedValidation(weighting, folding, lambda=1, loss=method.loss)
-
-  cverror(setup, geotable, wcv)
+function cverror(model, geotable::AbstractGeoTable, method::LeaveOneOut)
+  wmethod = UniformWeighting()
+  fmethod = OneFolding()
+  emethod = WeightedValidation(wmethod, fmethod, lambda=1, loss=method.loss)
+  cverror(model, geotable, emethod)
 end

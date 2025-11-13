@@ -30,10 +30,10 @@ function WeightedValidation(weighting, folding; lambda=1.0, loss=Dict())
   WeightedValidation(weighting, folding, lambda, loss)
 end
 
-function cverror(setup::ErrorSetup, geotable::AbstractGeoTable, method::WeightedValidation)
-  ovars = _outputs(setup, geotable)
+function cverror(model, geotable::AbstractGeoTable, method::WeightedValidation)
+  vars = _outputs(model, geotable)
   loss = method.loss
-  for var in ovars
+  for var in vars
     if var ∉ keys(loss)
       v = getproperty(geotable, var)
       loss[var] = defaultloss(v[1])
@@ -49,7 +49,7 @@ function cverror(setup::ErrorSetup, geotable::AbstractGeoTable, method::Weighted
   # error for a fold
   function ε(f)
     # fold prediction
-    pred = _prediction(setup, geotable, f)
+    pred = _prediction(model, geotable, f)
 
     # holdout set
     holdout = view(geotable, f[2])
@@ -58,7 +58,7 @@ function cverror(setup::ErrorSetup, geotable::AbstractGeoTable, method::Weighted
     𝓌 = view(ws, f[2])
 
     # loss for each variable
-    losses = map(ovars) do var
+    losses = map(vars) do var
       ℒ = loss[var]
       ŷ = getproperty(pred, var)
       y = getproperty(holdout, var)
@@ -72,22 +72,22 @@ function cverror(setup::ErrorSetup, geotable::AbstractGeoTable, method::Weighted
   εs = mapreduce(ε, vcat, fs)
 
   # combine error from different folds
-  Dict(var => mean(get.(εs, var, 0)) for var in ovars)
+  Dict(var => mean(get.(εs, var, 0)) for var in vars)
 end
 
 # output variables
-_outputs(::InterpSetup, gtb) = setdiff(propertynames(gtb), [:geometry])
-_outputs(s::LearnSetup, gtb) = s.targs
+_outputs(::Any, geotable) = targets(values(geotable))
+_outputs(::GeoStatsModel, geotable) = setdiff(propertynames(geotable), [:geometry])
 
 # prediction for a given fold
-function _prediction(s::InterpSetup{I}, geotable, f) where {I}
-  sdat = view(geotable, f[1])
-  sdom = view(domain(geotable), f[2])
-  sdat |> I(sdom; model=s.model, s.kwargs...)
+function _prediction(model, geotable, f)
+  targs = targets(values(geotable))
+  sdata = view(geotable, f[1])
+  tdata = view(geotable, f[2])
+  tdata |> Learn(label(sdata, targs); model)
 end
-
-function _prediction(s::LearnSetup, geotable, f)
-  source = view(geotable, f[1])
-  target = view(geotable, f[2])
-  target |> Learn(label(source, s.targs), model=s.model)
+function _prediction(model::GeoStatsModel, geotable, f)
+  sdata = view(geotable, f[1])
+  tvdom = view(domain(geotable), f[2])
+  sdata |> Interpolate(tvdom; model)
 end

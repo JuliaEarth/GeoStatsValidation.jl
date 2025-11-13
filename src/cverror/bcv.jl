@@ -27,14 +27,9 @@ BlockValidation(sides::Tuple; loss=Dict()) = BlockValidation(sides, assymbol(los
 
 BlockValidation(sides::Number...; kwargs...) = BlockValidation(sides; kwargs...)
 
-function cverror(setup::ErrorSetup, geotable::AbstractGeoTable, method::BlockValidation)
-  # uniform weights
-  weighting = UniformWeighting()
-
-  # block folds
-  folding = BlockFolding(method.sides)
-
-  wcv = WeightedValidation(weighting, folding, lambda=1, loss=method.loss)
-
-  cverror(setup, geotable, wcv)
+function cverror(model, geotable::AbstractGeoTable, method::BlockValidation)
+  wmethod = UniformWeighting()
+  fmethod = BlockFolding(method.sides)
+  emethod = WeightedValidation(wmethod, fmethod, lambda=1, loss=method.loss)
+  cverror(model, geotable, emethod)
 end
