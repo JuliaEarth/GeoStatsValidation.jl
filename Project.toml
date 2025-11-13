@@ -1,6 +1,6 @@
 name = "GeoStatsValidation"
 uuid = "36f43c0d-3673-45fc-9557-6860e708e7aa"
-version = "0.4.3"
+version = "0.4.4"
 authors = ["Elias Carvalho <eliascarvdev@gmail.com> and contributors"]
 
 [deps]
