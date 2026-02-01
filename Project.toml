@@ -1,6 +1,6 @@
 name = "GeoStatsValidation"
 uuid = "36f43c0d-3673-45fc-9557-6860e708e7aa"
-version = "0.4.5"
+version = "0.4.6"
 authors = ["Elias Carvalho <eliascarvdev@gmail.com> and contributors"]
 
 [deps]
@@ -17,7 +17,7 @@ StatsLearnModels = "c146b59d-1589-421c-8e09-a22e554fd05c"
 [compat]
 DataScienceTraits = "1.0"
 DensityRatioEstimation = "1.2"
-GeoStatsBase = "0.47"
+GeoStatsBase = "0.48"
 GeoStatsModels = "0.13"
 GeoStatsTransforms = "0.14"
 GeoTables = "1.27"
