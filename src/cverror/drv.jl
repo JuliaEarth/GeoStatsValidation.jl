@@ -16,14 +16,13 @@ ratio estimation, and then used in `k`-fold weighted cross-validation.
 * `lambda`    - Power of density ratios (default to `1.0`)
 * `loss`      - Dictionary with loss functions (default to `Dict()`)
 
-Please see [DensityRatioEstimation.jl]
-(https://github.com/JuliaEarth/DensityRatioEstimation.jl)
+Please see [DensityRatioEstimation.jl](https://github.com/JuliaEarth/DensityRatioEstimation.jl)
 for a list of supported estimators.
 
 ## References
 
-* Hoffimann et al. 2020. [Geostatistical Learning: Challenges and Opportunities]
-  (https://arxiv.org/abs/2102.08791)
+* Hoffimann et al. 2020. [Geostatistical Learning:
+  Challenges and Opportunities](https://arxiv.org/abs/2102.08791)
 """
 struct DensityRatioValidation{T,E,O,L} <: ErrorMethod
   k::Int
